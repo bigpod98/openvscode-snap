@@ -1,0 +1,32 @@
+name: openvscode-server
+base: core18
+version: 'openvscode-server-v1.61.0'
+summary: Run VS Code on a remote machine through a modern web browser from anywhere
+description: |
+  Run upstream VS Code on a remote machine with access through a modern web
+  browser from any device, anywhere.
+
+grade: stable
+confinement: classic
+
+parts:
+  openvscode-server:
+    plugin: dump
+    stage-packages:
+      - git
+    source: https://github.com/gitpod-io/openvscode-server/releases/download/$SNAPCRAFT_PROJECT_VERSION/$SNAPCRAFT_PROJECT_VERSION-linux-x64.tar.gz
+
+apps:
+  openvscode-server:
+    command: server.sh
+    daemon: simple
+    environment:
+      LANG: C.UTF-8
+      LANG: LC_ALL C.UTF-8
+      EDITOR: code
+      VISUAL: code
+      GIT_EDITOR: "code --wait"
+      OPENVSCODE_SERVER_ROOT: $SNAP
+    plugs:
+      - network
+      - network-bind
